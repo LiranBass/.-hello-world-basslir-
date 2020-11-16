@@ -1,0 +1,38 @@
+
+*{
+    color: aquamarine;
+}
+
+h2 {
+    color: chocolate;
+}
+
+.grid-container {
+display: grid;
+grid-gap: 25px;
+background-color: coral ;
+padding: 20px;
+grid-template-areas: 
+'PHOTO header header header header'
+' Years Years Years Years Years'
+' cont cont cont cont cont'
+' Skills Skills Skills Skills Skills'
+
+
+;
+}
+.item1{grid-area:PHOTO;
+
+}
+.item6{grid-area:header;
+
+}
+.item2{grid-area:Years;
+}                               
+.item3{grid-area:cont;
+}
+.item4{grid-area:Skills;
+}
+div > div {
+    background-color: rgb(250,187,200,0.5);
+}
