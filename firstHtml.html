@@ -11,8 +11,36 @@
 
         <a href="secondHtml.html" target="_blank"> next Page</a>
         <br></br>
-        <img src="https://g.foolcdn.com/image/?url=https%3A//g.foolcdn.com/editorial/images/593444/rocket-powered-businessman.jpg&w=1000&op=resize" width="300" height="300">
+        <button type="button" onclick="document.getElementById('runImage').src='run.jpg'"> click here to run </button>
+        <img id="runImage" src="runB.jpg"  width="200" height="200">
     </img>
+    <script>
+        function running(){
+            document.getElementById("runImage").src="runB.jpg";
+        }
+    </script>
+
+<h1>
+    this is a try for exc5
+</h1>
+<p id="exc5.1" style="color: blueviolet;">
+</p>
+<p id="exc5">
+</p>
+<script> 
+     document.getElementById("exc5.1").innerHTML="this is my first try";
+</script>
+   <script> function MyFunc(a,b) { 
+    return a+b;}
+     document.getElementById("exc5").innerHTML=MyFunc(7,9);
+        
+   </script>
+
+<p id="click100">
+    your grade is now 0
+</p>
+<button type="button" onclick="document.getElementById('click100').innerHTML='100! Bravo!'">click to get 100</button>
+
     </body>
 
 
