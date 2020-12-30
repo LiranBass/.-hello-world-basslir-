@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asignment 9 Liran Bass</title>
+</head>
+<body>
+
+<h1> this is a form of Registeration</h1>
+
+
+{% if username %}
+<h3> Hello Back good to see you {{ username }}!</h3>
+        <input type="submit"> LogOut
+
+{% else %}
+<h3> hello, please sign up </h3>
+    <form action="/assignmnet9" method="post">
+    <input name="username">
+    <input name="password">
+    <input type="submit">
+
+</form>
+{% endif %}
+
+
+<h1> this is a form of Search</h1>
+
+<form action="/assignmnet9" method="get">
+    <input name="nickname">
+    <input type="submit">
+</form>
+
+{% if name %}
+
+<h3> Hi {{ name }}!</h3>
+{% else %}
+<h3> this is the names of the people you may search </h3>
+    <h4> 'denny', 'liran', 'james', 'beal', 'wilton']
+    </h4>
+{% endif %}
+</body>
+</html>
