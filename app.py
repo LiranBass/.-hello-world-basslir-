@@ -1,9 +1,68 @@
 from flask import Flask, render_template, redirect, url_for
 from flask import request, session
+import mysql.connector
 
 app = Flask(__name__)
 app.secret_key = '123'
 names = ['denny', 'liran', 'james', 'beal', 'wilton']
+counter = 0
+
+
+def interact_db(query, query_type: str):
+    return_value = False
+    connection = mysql.connector.connect(host='localhost',
+                                         user='root',
+                                         password='root',
+                                         database='bi_ex_dw')
+    cursor = connection.cursor(named_tuple=True)
+    cursor.execute(query)
+
+    if query_type == 'commit':
+        # changes in db= commit
+        connection.commit()
+        return_value = True
+
+    if query_type == 'fetch':
+        # take all data that sumnu. list of uesrs
+        query_result = cursor.fetchall()
+        return_value = query_result
+
+    connection.close()
+    cursor.close()
+    return return_value
+
+
+@app.route('/users')
+def users():
+    query = "select * from users"
+    query_result = interact_db(query, query_type='fetch')
+    print(query_result)
+    return render_template('assignment10.html', users=query_result)
+
+
+@app.route('/assignment10', methods=['GET', 'POST'])
+def assignment10():
+    query = "select * from users"
+    query_result = interact_db(query, query_type='fetch')
+    print(query_result)
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        identify1 = request.form['id']
+        print(identify1)
+        query = "insert into users(identify1, first_name) VALUES ('%s', '%s')" % (identify1, first_name)
+        interact_db(query=query, query_type='commit')
+        return redirect('/users')
+    return render_template('assignment10.html', users=query_result)
+
+
+@app.route('/delete_user', methods=['GET', 'POST'])
+def delete_user():
+    if request.method == 'GET':
+        user_id = request.args['identify1']
+        query = "DELETE FROM USERS WHERE IDENTIFY1='%s'" % user_id
+        interact_db(query=query, query_type='commit')
+        return redirect('/users')
+    return 'user deleted'
 
 
 @app.route('/home')
@@ -60,12 +119,19 @@ def assign9_func():
     name = ''
     username = ''
     if request.method == 'POST':
-        # check in dB in the website
-        username = request.form['username']
-        session['logged_in'] = True
-        session['username'] = username
-        return render_template('assignmnet9.html',
-                               username=username, name=None)
+        if not session['logged_in']:
+            # check in dB in the website
+            username = request.form['username']
+            session['logged_in'] = True
+            session['username'] = username
+            return render_template('assignmnet9.html',
+                                   username=username, name=None)
+        else:
+            session['logged_in'] = False
+            username = None
+            return render_template('assignmnet9.html',
+                                   username=username, name=None, session_s=False)
+
     elif request.method == 'GET':
         name = request.args.get('nickname', None)
         if name in names:

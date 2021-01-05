@@ -11,13 +11,16 @@
 
 {% if username %}
 <h3> Hello Back good to see you {{ username }}!</h3>
-        <input type="submit"> LogOut
+    <form action="/assignmnet9" method="post">
+{#           <label> LogOut</label>#}
+        <input type="submit" value="logout" name="logout">
+    </form>
 
 {% else %}
 <h3> hello, please sign up </h3>
     <form action="/assignmnet9" method="post">
-    <input name="username">
-    <input name="password">
+   <label> username: <input name="username"></label>
+    <label> password: <input type="password" name="password"></label>
     <input type="submit">
 
 </form>
