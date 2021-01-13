@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
 from flask import request, session
+from flask import jsonify
 import mysql.connector
 
 app = Flask(__name__)
@@ -13,7 +14,7 @@ def interact_db(query, query_type: str):
     connection = mysql.connector.connect(host='localhost',
                                          user='root',
                                          password='root',
-                                         database='bi_ex_dw')
+                                         database='bi_ex_mir')
     cursor = connection.cursor(named_tuple=True)
     cursor.execute(query)
 
@@ -143,6 +144,43 @@ def assign9_func():
     else:
         return render_template('assignmnet9.html',
                                username=username, name=None)
+
+
+@app.route('/assignment11/users')
+def get_users():
+    if request.method == "GET":
+        query = "select * from users"
+        query_result = interact_db(query=query, query_type='fetch')
+        if len(query_result) == 0:
+            return jsonify({
+                'success': 'False',
+                'Error': 'There is no users data'
+            })
+        else:
+            return jsonify({
+                'success': 'True',
+                'data': query_result
+
+            })
+
+
+@app.route('/assignment11/users/selected', defaults={'some_user_id': 3})
+@app.route('/assignment11/users/selected/<int:some_user_id>', methods=['GET', 'POST'])
+def get_user_by_id(some_user_id):
+    if request.method == "GET":
+        query = "Select * FROM users where identify1='%s'" % some_user_id
+        query_result = interact_db(query=query, query_type='fetch')
+        if len(query_result) == 0:
+            return jsonify({
+                'success': 'False',
+                'Error': 'User doesnt exist'
+
+            })
+        else:
+            return jsonify({
+                'success': 'True',
+                'data': query_result[0]
+            })
 
 
 if __name__ == '__main__':
